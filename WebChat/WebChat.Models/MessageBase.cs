@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace WebChat.Models
@@ -15,7 +16,8 @@ namespace WebChat.Models
         public int RecieverId { get; set; }
         public virtual User Reciever { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
+
         public bool State { get; set; }
     }
 }

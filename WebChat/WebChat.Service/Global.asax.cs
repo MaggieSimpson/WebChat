@@ -7,6 +7,9 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using WebChat.Data;
+using WebChat.Data.Migrations;
+using WebChat.Service.Models;
 
 namespace WebChat.Service
 {
@@ -22,8 +25,8 @@ namespace WebChat.Service
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 
-            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<SchoolsContext>());
-            //GlobalConfiguration.Configuration.DependencyResolver = new DefaultDependencyResolver();
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<WebChatContext, Configuration>());
+            GlobalConfiguration.Configuration.DependencyResolver = new DefaultDependencyResolver();
         }
     }
 }

@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repositories\DatabaseRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\IRepositoryAsync.cs" />
     <Compile Include="Migrations\201308142123319_Add indices.cs" />
     <Compile Include="Migrations\201308142123319_Add indices.Designer.cs">
       <DependentUpon>201308142123319_Add indices.cs</DependentUpon>
@@ -62,6 +65,7 @@
       <DependentUpon>201308142123319_Add indices.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
