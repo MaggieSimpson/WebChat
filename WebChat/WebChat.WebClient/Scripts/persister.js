@@ -4,20 +4,20 @@
 
 var persisters = (function () {
     var username = localStorage.getItem("username");
-    var sessionKey = localStorage.getItem("sessionKey");
+    var sessionkey = localStorage.getItem("sessionkey");
 
     function saveUserData(userData) {
         localStorage.setItem("username", userData.username);
-        localStorage.setItem("sessionKey", userData.sessionKey);
+        localStorage.setItem("sessionkey", userData.sessionkey);
         username = userData.username;
-        sessionKey = userData.sessionKey;
+        sessionkey = userData.sessionkey;
     }
 
     function clearUserData() {
         localStorage.removeItem("username");
-        localStorage.removeItem("sessionKey");
+        localStorage.removeItem("sessionkey");
         username = "";
-        sessionKey = "";
+        sessionkey = "";
     }
 
     var MainPersister = Class.create({
@@ -28,7 +28,7 @@ var persisters = (function () {
         },
 
         isUserLoggedIn: function () {
-            var isLoggedIn = username != null && sessionKey != null;
+            var isLoggedIn = username != null && sessionkey != null;
             return isLoggedIn;
         },
 
@@ -73,11 +73,27 @@ var persisters = (function () {
         },
 
         logout: function (success, error) {
-            var url = this.rootUrl + "logout/" + sessionKey;
-            httpRequester.getJSON(url, function (data) {
+            var url = this.rootUrl + "logout/";
+            httpRequester.postJSON(url, {
+                sessionkey: sessionkey
+            }, function (data) {
                 clearUserData();
                 success(data);
             }, error)
+        },
+
+        uploadImage: function (success, error) {
+            var url = this.rootUrl + "uploadImage/";
+            httpRequester.postJSON(url, {
+                sessionkey: sessionkey
+            }, function (data) {
+            }, error)
+        },
+
+        online: function (success, error) {
+            var url = this.rootUrl + "online/?sessionKey=" + sessionkey;
+
+            httpRequester.getJSON(url, success, error);
         }
     });
 
@@ -88,15 +104,21 @@ var persisters = (function () {
         },
 
         all: function (success, error) {
-            var url = this.rootUrl + "?sessionKey=" + sessionKey;
+            var url = this.rootUrl + "?sessionkey=" + sessionkey;
+            httpRequester.getJSON(url, success, error);
+        },
+
+        byUsername: function (username, success, error) {
+            var url = this.rootUrl + "byUsername?sessionkey=" + sessionkey + "&username=" + username;
             httpRequester.getJSON(url, success, error);
         },
 
         send: function (recieverUsername, content, success, error) {
-            var url = this.rootUrl + "?sessionKey=" + sessionKey + "&reciever=" + recieverUsername;
+            var url = this.rootUrl + "send?sessionkey=" + sessionkey + "&reciever=" + recieverUsername;
             var messageData = {
                 reciever: recieverUsername,
-                state: false
+                content: content,
+                sessionKey: sessionkey
             };
 
             httpRequester.postJSON(url, messageData, success, error);

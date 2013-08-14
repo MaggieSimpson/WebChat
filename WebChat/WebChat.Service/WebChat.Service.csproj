@@ -156,6 +156,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Models\DefaultDependencyResolver.cs" />
+    <Compile Include="Models\TextMessageInfo.cs" />
     <Compile Include="Models\UnitOfWork.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">

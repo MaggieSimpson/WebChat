@@ -30,7 +30,7 @@ namespace WebChat.Service
             config.EnableSystemDiagnosticsTracing();
 
             config.Formatters.JsonFormatter.SerializerSettings.PreserveReferencesHandling =
-                PreserveReferencesHandling.Objects;
+                PreserveReferencesHandling.None;
 
             config.Formatters.JsonFormatter.Indent = true;
 

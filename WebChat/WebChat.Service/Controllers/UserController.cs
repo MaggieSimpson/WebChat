@@ -32,9 +32,9 @@ namespace WebChat.Service.Controllers
 
         [HttpGet]
         [ActionName("online")]
-        public IEnumerable<User> GetOnline()
+        public IEnumerable<User> GetOnlineUsers(string sessionKey)
         {
-            return unitOfWork.Users.All().Where(x => x.Sessionkey != null);
+            return unitOfWork.Users.All().Where(x => x.Sessionkey != null && x.Sessionkey != sessionKey);
         }
 
         [HttpPost]
@@ -91,8 +91,6 @@ namespace WebChat.Service.Controllers
                 {
                     Trace.WriteLine(file.Headers.ContentDisposition.FileName);
                     Trace.WriteLine("Server file path: " + file.LocalFileName);
-
-
                 }
                 return Request.CreateResponse(HttpStatusCode.OK);
             }

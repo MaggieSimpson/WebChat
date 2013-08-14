@@ -36,16 +36,49 @@ namespace WebChat.Service.Controllers
                 throw new ArgumentNullException("sessionKey");
             }
 
-            var messages = unitOfWork.Messages.All().Where(
-                x => x.Reciever.Username == username && x.Sender.Sessionkey == sessionKey).ToList();
+            var dbUser = unitOfWork.Users.All().FirstOrDefault(x => x.Sessionkey == sessionKey);
+
+            var messages = unitOfWork.Messages.All().ToList().Where(
+                x => (x.Reciever.Username == username && x.Sender.Sessionkey == sessionKey) ||
+                    (x.Reciever.Username == dbUser.Username && x.Sender.Username == username)).ToList();
 
             foreach (var message in messages)
             {
-                message.State = true;
-                unitOfWork.Messages.Update(message.MessageId, message);
+                if (message.Reciever.Username == dbUser.Username)
+                {
+                    message.State = true;
+                    unitOfWork.Messages.Update(message.MessageId, message);
+                }
             }
 
             return messages;
+        }
+
+        [HttpPost]
+        [ActionName("send")]
+        public TextMessage Send([FromBody]TextMessageInfo info)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new ArgumentException("Invalid credentials");
+            }
+
+            var sender = unitOfWork.Users.All().FirstOrDefault(x => x.Sessionkey == info.SessionKey);
+
+            var reciever = unitOfWork.Users.All().FirstOrDefault(x => x.Username == info.Reciever);
+
+            TextMessage message = new TextMessage()
+            {
+                Content = info.Content,
+                Date = DateTime.Now,
+                Reciever = reciever,
+                Sender = sender,
+                State = false
+            };
+
+            unitOfWork.Messages.Add(message);
+
+            return message;
         }
     }
 }

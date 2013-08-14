@@ -13,13 +13,12 @@ namespace WebChat.Service.Models
 
         public UnitOfWork()
         {
+            var db = new WebChatContext();
             {
-                var db = new WebChatContext();
                 this.Users = new DatabaseRepository<User>(db);
             }
 
             {
-                var db = new WebChatContext();
                 this.Messages = new DatabaseRepository<MessageBase>(db);
             }
         }

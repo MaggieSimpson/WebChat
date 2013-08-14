@@ -58,6 +58,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.html" />
+    <Content Include="PartialHtmls\LoginRegister.html" />
+    <Content Include="PartialHtmls\ProfilePicture.html" />
     <Content Include="Scripts\class.js" />
     <Content Include="Scripts\controller.js" />
     <Content Include="Scripts\http-requester.js" />
