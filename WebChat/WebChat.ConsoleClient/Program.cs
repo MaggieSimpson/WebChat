@@ -17,6 +17,12 @@ namespace WebChat.ConsoleClient
 
             using (var db = new WebChatContext())
             {
+                db.Database.Initialize(true);
+
+                //db.Users.Add(new User { Username = "Gosho", Password = "123456" });
+
+                db.Messages.Add(new TextMessage { Content = "hello", Date = DateTime.Now });
+
                 db.SaveChanges();
             }
         }
