@@ -43,7 +43,7 @@ namespace WebChat.Service.Controllers
         {
             var responseMsg = this.PerformOperation(() =>
             {
-                string nickname = string.Empty;
+                string username = string.Empty;
                 //var sessionKey = UsersRepository.LoginUser(user.Username, user.Password);
                 return user;
             });
