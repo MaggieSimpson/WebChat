@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <div style="width: 45%">
+        <div class="demo-section">
+            <form method="post" id="uploadImageForm" enctype="multipart/form-data"
+                action="http://localhost:49530/api/user/uploadImage">
+                <input type="file" name="files" id="files" />
+                <input type="submit" />
+            </form>
+        </div>
+    </div>
+
+
+    <script src="Scripts/jquery-2.0.3.min.js"></script>
+    <script>
+        $("#uploadImageForm").submit(function (e) { e.stopPropagation(); });
+    </script>
+</body>
+</html>
