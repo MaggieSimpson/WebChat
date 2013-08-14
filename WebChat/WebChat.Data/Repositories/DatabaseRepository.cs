@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 
 namespace WebChat.Data.Repositories
 {
@@ -16,7 +17,7 @@ namespace WebChat.Data.Repositories
 
         public IEnumerable<T> All()
         {
-            return this.db.Set<T>();
+            return this.db.Set<T>().AsQueryable<T>();
         }
 
         public T Get(int id)

@@ -24,6 +24,10 @@ namespace WebChat.Service.Models
             {
                 return new UserController(new UnitOfWork());
             }
+            else if (serviceType == typeof(MessageController))
+            {
+                return new MessageController(new UnitOfWork());
+            }
             else
             {
                 return null;
