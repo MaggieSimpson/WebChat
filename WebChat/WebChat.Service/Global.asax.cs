@@ -22,8 +22,8 @@ namespace WebChat.Service
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<SchoolsContext>());
-            GlobalConfiguration.Configuration.DependencyResolver = new DefaultDependencyResolver();
+            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<SchoolsContext>());
+            //GlobalConfiguration.Configuration.DependencyResolver = new DefaultDependencyResolver();
         }
     }
 }

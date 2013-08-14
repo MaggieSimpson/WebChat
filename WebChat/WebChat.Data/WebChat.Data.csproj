@@ -43,6 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\201308142123319_Add indices.cs" />
+    <Compile Include="Migrations\201308142123319_Add indices.Designer.cs">
+      <DependentUpon>201308142123319_Add indices.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="WebChatContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -51,6 +56,11 @@
       <Project>{94bf67c4-636d-4c4c-a44a-9fdadc7e3533}</Project>
       <Name>WebChat.Models</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201308142123319_Add indices.resx">
+      <DependentUpon>201308142123319_Add indices.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

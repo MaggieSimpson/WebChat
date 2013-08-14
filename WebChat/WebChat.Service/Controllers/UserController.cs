@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Providers.Entities;
 
 namespace WebChat.Service.Controllers
 {
@@ -15,13 +16,13 @@ namespace WebChat.Service.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage Register(UserRegister userRegister)
+        public HttpResponseMessage Register(User user)
         {
             throw new NotImplementedException();
         }
 
         [HttpPost]
-        public HttpResponseMessage Login(UserLogin userLogin)
+        public HttpResponseMessage Login(User user)
         {
             throw new NotImplementedException();
         }
