@@ -9,10 +9,5 @@ namespace WebChat.Data
     {
         public DbSet<User> Users { get; set; }
         public DbSet<MessageBase> Messages { get; set; }
-
-        public WebChatContext()
-        {
-            this.Database.Initialize(force: true);
-        }
     }
 }
