@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace WebChat.Service
 {
@@ -23,6 +25,18 @@ namespace WebChat.Service
             // To disable tracing in your application, please comment out or remove the following line of code
             // For more information, refer to: http://www.asp.net/web-api
             config.EnableSystemDiagnosticsTracing();
+
+            config.Formatters.JsonFormatter.SerializerSettings.PreserveReferencesHandling =
+                PreserveReferencesHandling.Objects;
+
+            config.Formatters.JsonFormatter.Indent = true;
+
+            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver =
+                new CamelCasePropertyNamesContractResolver();
+
+            var appXmlType = config.Formatters.XmlFormatter.SupportedMediaTypes.SingleOrDefault(
+                    t => t.MediaType == "application/xml");
+            config.Formatters.XmlFormatter.SupportedMediaTypes.Remove(appXmlType);
         }
     }
 }
