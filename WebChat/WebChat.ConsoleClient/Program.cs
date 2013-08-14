@@ -17,6 +17,8 @@ namespace WebChat.ConsoleClient
 
             using (var db = new WebChatContext())
             {
+                db.Database.Initialize(force: true);
+
                 db.SaveChanges();
             }
         }
