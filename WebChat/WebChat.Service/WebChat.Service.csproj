@@ -148,7 +148,7 @@
     <Compile Include="Controllers\BaseControllerTemp.cs" />
     <Compile Include="Models\DefaultDependencyResolver.cs" />
     <Compile Include="Models\UnitOfWork.cs" />
-    <Compile Include="Controllers\UserControllerTemp.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

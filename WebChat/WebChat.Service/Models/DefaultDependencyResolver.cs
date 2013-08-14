@@ -20,9 +20,9 @@ namespace WebChat.Service.Models
 
         public object GetService(Type serviceType)
         {
-            if (serviceType == typeof(UserControllerTemp))
+            if (serviceType == typeof(UserController))
             {
-                return new UserControllerTemp(new UnitOfWork());
+                return new UserController(new UnitOfWork());
             }
             else
             {
