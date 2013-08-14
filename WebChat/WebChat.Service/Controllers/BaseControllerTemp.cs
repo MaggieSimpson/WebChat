@@ -17,5 +17,17 @@ namespace WebChat.Service.Controllers
         {
             this.unitOfWork = unitOfWork;
         }
+
+        protected HttpResponseMessage PerformOperation(Action action)
+        {
+            action();
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        protected HttpResponseMessage PerformOperation<T>(Func<T> action)
+        {
+            action();
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
     }
 }
