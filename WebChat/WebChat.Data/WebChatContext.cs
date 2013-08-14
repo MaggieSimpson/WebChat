@@ -10,5 +10,6 @@ namespace WebChat.Data
         public DbSet<User> Users { get; set; }
         public DbSet<MessageBase> Messages { get; set; }
 
+
     }
 }
