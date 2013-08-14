@@ -30,7 +30,19 @@ var controllers = (function () {
             this.persister.user.online(function (data) {
                 var users = ui.buildOnlineUsersList(data);
                 $(selector).append(users);
-            }, function (error) { alert(JSON.stringify(error))});
+            }, function (error) { alert(JSON.stringify(error)) });
+            var channel = "stamat-channel";
+            PUBNUB.subscribe({
+                channel: channel,
+                callback: function (message) {
+                    var messageContent = JSON.parse(message);
+                    var li = '<li class = "message">';
+                    li += messageContent.Sender.Username;
+                    li += '<div class="message-content">' + messageContent.Content + '</div>';
+                    li += '</li>';
+                    $("#user-messages").append(li);
+                }
+            });
         },
 
         attachUIEventHandlers: function (selector) {
@@ -111,7 +123,8 @@ var controllers = (function () {
                 var recieverUsername = $("#messages-wrapper").data("recieverUsername");
                 self.persister.message.send(recieverUsername, input.val(), function () {
                     input.val("");
-                    input.removeAttr('disabled')
+                    input.removeAttr('disabled');
+
                 }, function () { });
             });
         },

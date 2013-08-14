@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Newtonsoft.Json;
+using WebChat.Data;
 using WebChat.Models;
 using WebChat.Service.Models;
 
@@ -77,6 +79,10 @@ namespace WebChat.Service.Controllers
             };
 
             unitOfWork.Messages.Add(message);
+
+            string channel = "stamat-channel";
+
+            PubnubContext.Publish(channel, JsonConvert.SerializeObject(message));
 
             return message;
         }
