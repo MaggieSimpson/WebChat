@@ -21,5 +21,45 @@
     <script src="Scripts/controller.js"></script>
     
     <div id="content"></div>
+
+    //----------------------------------------------
+    <div id="chat-container">
+        <div id="chat-title">WEB CHAT APPLICATION</div>
+        <div id="online-users-container">
+            <div id="online-users-heading">USERS ONLINE</div>
+        </div>
+        <div id="messages-container">
+            <div id="messages-window"></div>
+            <div id="messages-writer">
+                <form>
+                    <textarea id="input-msg-writer" rows="4"></textarea>
+                </form>
+            </div>
+        </div>
+        <div id="profile-sending">
+            <div id="profile-info-container">
+                <div id="profile-heading">USER PROFILE</div>
+                <img id= "profile-picture" src=""/>
+                <div class="picture-uploader">
+                    <form method="post" id="uploadImageForm" enctype="multipart/form-data"
+                        action="http://localhost:49530/api/user/uploadImage">
+                        <input type="file" name="files" id="files" />
+                        <input type="submit" />
+                    </form>
+                </div>
+            </div>
+            <div id="send-buttons">
+                <form id="form-send-message">
+                    <div>
+                        <input id="btn-msg-sender" type="button" name="send-file" value="Send file"/>
+                    </div>
+                    <div>
+                        <input id="btn-file-sender" type="button" name="send-message" value="Send message"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

@@ -1,7 +1,7 @@
 ﻿body
 {
-	margin-top: 40px;
-	background-color:lightgreen;
+	padding: 0px;
+    background-color: gray;
 }
 
 #content
@@ -47,4 +47,110 @@ ul
 .unread
 {
 	color:red;
+}
+
+.red-message {
+    color: red;
+}
+
+.blue-message {
+    color: blue;
+}
+
+#chat-title{
+    height: 5%;
+    border: 2px solid blue;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 30px;
+    margin-bottom: 10px;
+    font-size: x-large;
+    font-weight:bolder;
+}
+
+#chat-container{
+    background-color: lightgreen;
+    width: 1200px;
+    height: 600px;
+    border: 2px solid darkblue;
+    padding: 10px;
+}
+
+#online-users-container{
+    display: inline-block;
+    float: left;
+    height: 92%;
+    width: 20%;
+    border: 2px solid blue;
+}
+
+#messages-container{
+    display: inline-block;
+    float:left;
+    height:92%;
+    width: 57%;
+    margin-left: 12px;
+}
+
+#messages-window{
+    height:80%;
+    width: 100%;
+    border: 2px solid blue;
+    margin-bottom: 13px;
+}
+
+#messages-writer{
+    height:17%;
+    width: 100%;
+    border: 2px solid blue;
+}
+
+#profile-sending{
+    display: inline-block;
+    float:left;
+    height: 92%;
+    width: 20%;
+    margin-left: 15px;
+}
+
+#profile-info-container{
+    height: 60%;
+    width: 100%;
+    border: 2px solid blue;
+}
+
+#form-send-message{
+    padding-left: 4px;
+}
+
+#btn-msg-sender{
+    font-size:x-large;
+    margin-top: 14px;
+    height: 98px;
+    width: 100%;
+}
+
+#btn-file-sender{
+    font-size:x-large;
+    margin-top: 12px;
+    height: 98px;
+    width: 100%;
+}
+
+#online-users-heading, #profile-heading{
+    font-size:x-large;
+    text-align: center;
+}
+
+#online-users-container, #messages-window, #messages-writer{
+    overflow:auto;
+}
+
+#input-msg-writer{
+    width: 95%;
+}
+
+#profile-picture{
+    width: 200px;
+    height: 200px
 }
