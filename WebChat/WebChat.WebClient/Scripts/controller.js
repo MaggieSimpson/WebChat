@@ -45,7 +45,6 @@ var controllers = (function () {
                     channel: channel,
                     callback: function (message) {
                         var message = JSON.parse(message);
-                        debugger;
                         if (message.Sender.Username == self.currentReciever) {
                             var li = ui.appendRecievedMessage(message.Content, self.persister.username());
                             $("#user-messages").prepend(li);
@@ -56,8 +55,8 @@ var controllers = (function () {
                         }
                     }
                 });
-  
-              
+
+
             });
         },
 
@@ -125,7 +124,6 @@ var controllers = (function () {
                     $("#messages-wrapper").remove();
                     var messages = ui.buildMessages(data);
                     $(selector).append(messages);
-                    debugger;
                     self.currentReciever = username;
                 }, function (err) {
                 });

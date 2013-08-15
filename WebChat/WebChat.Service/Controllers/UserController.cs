@@ -77,43 +77,77 @@ namespace WebChat.Service.Controllers
             return dbUser;
         }
 
+        //[HttpPost]
+        //[ActionName("uploadImage")]
+        //public async Task<HttpResponseMessage> UploadImage(string sessionkey)
+        //{
+        //    // Check if the request contains multipart/form-data.
+        //    if (!Request.Content.IsMimeMultipartContent())
+        //    {
+        //        throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+        //    }
+
+        //    string root = HttpContext.Current.Server.MapPath("~/App_Data");
+        //    var provider = new MultipartFormDataStreamProvider(root);
+
+        //    try
+        //    {
+        //        // Read the form data.
+        //        await Request.Content.ReadAsMultipartAsync(provider);
+
+        //        var dbUser = unitOfWork.Users.All().FirstOrDefault(x => x.Sessionkey == sessionkey);
+
+        //        // This illustrates how to get the file names.
+        //        foreach (var file in provider.FileData)
+        //        {
+        //            Trace.WriteLine(file.Headers.ContentDisposition.FileName);
+        //            Trace.WriteLine("Server file path: " + file.LocalFileName);
+        //            string fileName = file.LocalFileName;
+        //            var url = DropBoxUploader.UploadProfilePicToDropBox(fileName, file.Headers.ContentDisposition.FileName);
+        //            dbUser.ProfilePicture = url;
+        //            unitOfWork.Users.Update(dbUser.UserId, dbUser);
+        //            break;
+        //        }
+        //        return Request.CreateResponse(HttpStatusCode.OK);
+        //    }
+        //    catch (System.Exception e)
+        //    {
+        //        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+        //    }
+        //}
+
         [HttpPost]
         [ActionName("uploadImage")]
-        public async Task<HttpResponseMessage> UploadImage(string sessionkey)
+        public HttpResponseMessage UploadImage()
         {
-            // Check if the request contains multipart/form-data.
-            if (!Request.Content.IsMimeMultipartContent())
+            HttpResponseMessage result = null;
+            var httpRequest = HttpContext.Current.Request;
+
+            // Check if files are available
+            if (httpRequest.Files.Count > 0)
             {
-                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
-            }
+                var files = new List<string>();
 
-            string root = HttpContext.Current.Server.MapPath("~/App_Data");
-            var provider = new MultipartFormDataStreamProvider(root);
-
-            try
-            {
-                // Read the form data.
-                await Request.Content.ReadAsMultipartAsync(provider);
-
-                var dbUser = unitOfWork.Users.All().FirstOrDefault(x => x.Sessionkey == sessionkey);
-
-                // This illustrates how to get the file names.
-                foreach (MultipartFileData file in provider.FileData)
+                // interate the files and save on the server
+                foreach (string file in httpRequest.Files)
                 {
-                    Trace.WriteLine(file.Headers.ContentDisposition.FileName);
-                    Trace.WriteLine("Server file path: " + file.LocalFileName);
-                    string fileName = file.LocalFileName;
-                    var url = DropBoxUploader.UploadProfilePicToDropBox(fileName, file.Headers.ContentDisposition.FileName);
-                    dbUser.ProfilePicture = url;
-                    unitOfWork.Users.Update(dbUser.UserId, dbUser);
-                    break;
+                    var postedFile = httpRequest.Files[file];
+                    var filePath = HttpContext.Current.Server.MapPath("~/" + postedFile.FileName);
+                    postedFile.SaveAs(filePath);
+
+                    files.Add(filePath);
                 }
-                return Request.CreateResponse(HttpStatusCode.OK);
+
+                // return result
+                result = Request.CreateResponse(HttpStatusCode.Created, files);
             }
-            catch (System.Exception e)
+            else
             {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+                // return BadRequest (no file(s) available)
+                result = Request.CreateResponse(HttpStatusCode.BadRequest);
             }
+
+            return result;
         }
 
         [HttpPost]

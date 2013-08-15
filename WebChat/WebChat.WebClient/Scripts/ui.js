@@ -27,7 +27,7 @@
 
         var ul = '<ul id="user-messages">';
         for (var i = users.length - 1; i >= 0; i--) {
-            var li = AppendRecievedMessage(users[i].content, users[i].sender.username);
+            var li = appendRecievedMessage(users[i].content, users[i].sender.username);
             ul += li;
         }
 
@@ -57,6 +57,6 @@
         buildMessages: buildMessages,
         appendRecievedMessage: appendRecievedMessage,
         getProfileInfo: getProfileInfo
-    }
+    };
 
 }());

@@ -73,6 +73,12 @@ var persisters = (function () {
             var url = this.rootUrl + "profilePicture?sessionKey=" + sessionkey;
             httpRequester.getJSON(url, success, error);
         },
+        
+        uploadProfilePicture: function (data, success, error) {
+            var url = this.rootUrl + "/uploadImage?sessionKey=" + sessionkey;
+
+            httpRequester.postFileData(url, data, success, error);
+        },
 
         register: function (user, success, error) {
             var url = this.rootUrl + "register";

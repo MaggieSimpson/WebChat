@@ -10,6 +10,7 @@ var httpRequester = (function () {
             error: error
         });
     }
+
     function postJSON(url, data, success, error) {
         $.ajax({
             url: url,
@@ -21,8 +22,23 @@ var httpRequester = (function () {
             error: error
         });
     }
+
+    function postFileData(url, data, success, error) {
+        $.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: "multipart/form-data",
+            processData: false,
+            type: 'POST',
+            success: success,
+            error: error
+        });
+    }
+
     return {
         getJSON: getJSON,
-        postJSON: postJSON
+        postJSON: postJSON,
+        postFileData: postFileData
     };
 }());
