@@ -1,83 +1,45 @@
 ﻿body
 {
 	margin-top: 40px;
+	background-color:lightgreen;
 }
 
-.popover form
+#content
 {
-	margin: 5px 0;
+	position:relative;
 }
 
-form .text-error
+button
 {
-	margin-top: 20px;
+	background-color:limegreen;
+	padding:5px 7px;
+	margin:5px;
+	border:1px solid green;
+	border-radius:10px;
 }
 
-.form-modal
-{
-	margin: 0 auto;
-	padding: 19px 29px 29px;
-	max-width: 300px;
-	background: #f5f5f5;
-	border: 1px solid #e5e5e5;
-	border-radius: 5px;
-	box-shadow: 0 1px 2px rgba(0,0,0,.05);
-}
-
-	.form-modal input[type = "text"],
-	.form-modal input[type = "password"]
+	button:hover
 	{
-		padding: 7px 9px;
-		height: auto;
-		font-size: 16px;
+		background-color:lightseagreen;
 	}
-
-[data-status = "in-progress"]
+ul
 {
-	background: #dff0d7;
+	list-style-type:none;
 }
 
-	[data-status = "in-progress"].active a
-	{
-		background: none;
-	}
-
-[data-status = "open"]
+#online-users-holder
 {
-	background: #fcf8e3;
+	position:absolute;
+	left:520px;
+	
 }
 
-.footer
+.online-user
 {
-	padding: 20px;
-	border-top: 1px solid #e5e5e5;
+
 }
 
-.hide-text
+#messages-wrapper #user-messages .message h2
 {
-	position: absolute;
-	top: -10000px;
-}
-
-.centered
-{
-	text-align: center;
-}
-
-.my-active-games .active a,
-.my-active-games .active a:hover
-{
-	cursor: default;
-	background: #333;
-	color: #fff;
-}
-
-.my-active-games [data-status="open"] li,
-.my-active-games [data-status="open"] a,
-.my-active-games [data-status="open"] li:hover,
-.my-active-games [data-status="open"] a:hover
-{
-	background-color: #fff;
-	color: #08C;
-	cursor: default;
+	font-size:1.2em;
 }

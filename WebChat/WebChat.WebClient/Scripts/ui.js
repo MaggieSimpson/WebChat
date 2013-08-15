@@ -1,14 +1,20 @@
 ﻿var ui = (function () {
     function buildOnlineUsersList(users) {
+        var div = '<div id ="online-users-holder"><h1>Online users</h1>'
         var ul = '<ul id="online-users">';
+
         for (var i = 0; i < users.length; i++) {
             var li = '<li class = "online-user" data-username=' + users[i].username + '>';
             li += users[i].username;
             li += '</li>';
             ul += li;
         }
+
         ul += '</ul>';
-        return ul;
+        div += ul;
+        div += '</div>';
+
+        return div;
     }
 
     function buildMessages(users) {
@@ -16,8 +22,9 @@
         var ul = '<ul id="user-messages">';
         for (var i = 0; i < users.length; i++) {
             var li = '<li class = "message">';
-            li += users[i].sender.username;
-            li += '<div class="message-content">' + users[i].content + '</div>';
+
+            li += '<div class="user"><h2>Sender: '+users[i].sender.username + '</h2></div>';
+            li += '<div class="message-content"><h2>Message: ' + users[i].content + '</h2></div>';
             li += '</li>';
             ul += li;
         }
