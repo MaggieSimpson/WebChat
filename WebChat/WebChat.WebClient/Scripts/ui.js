@@ -51,10 +51,24 @@
 
     function appendRecievedMessage(messageContent, senderUsername) {
         var li = '<li class = "message">';
-        li += '<div><h2>Sender: ' + senderUsername + '</h2></div>';
-        li += '<div class="message-content"><h2>Message: ' + messageContent + '</h2></div>';
+        li += '<div><h2>' + senderUsername + ': ';
+
+        // Adding colors to the messages
+        if (localStorage.getItem("username") == senderUsername) {
+            li += '<span class="blue-message">';
+        }
+        else {
+            li += '<span class="red-message">';
+        }
+
+        li += messageContent + '</span>' + '</h2></div>';
         li += '</li>';
         return li;
+        //var li = '<li class = "message">';
+        //li += '<div><h2>Sender: ' + senderUsername + '</h2></div>';
+        //li += '<div class="message-content"><h2>Message: ' + messageContent + '</h2></div>';
+        //li += '</li>';
+        //return li;
     }
 
     function appendRecievedFile(messageContent, senderUsername) {
