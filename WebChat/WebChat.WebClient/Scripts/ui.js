@@ -6,6 +6,7 @@
         for (var i = users.length - 1; i >= 0; i--) {
             var li = '<li class = "online-user" data-username=' + users[i].username + '>';
             li += users[i].username;
+            li += '<img src="' + users[i].profilePicture + '" width="30" height = "50" />';
             li += '</li>';
             ul += li;
         }
