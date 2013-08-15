@@ -9,11 +9,13 @@ using WebChat.Service.Models;
 
 namespace WebChat.Service.Controllers
 {
-    public class BaseControllerTemp : ApiController
+    public class BaseController : ApiController
     {
+        protected static Random random = new Random();
+
         protected readonly UnitOfWork unitOfWork = null;
 
-        public BaseControllerTemp(UnitOfWork unitOfWork)
+        public BaseController(UnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }

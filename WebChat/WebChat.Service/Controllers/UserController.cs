@@ -3,73 +3,104 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Web.Http;
 using WebChat.Models;
 using WebChat.Service.Models;
 
 namespace WebChat.Service.Controllers
 {
-    public class UserController : BaseControllerTemp
+    public class UserController : BaseController
     {
+        private const string SessionKeyChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        private const int SessionKeyLen = 50;
+
         public UserController(UnitOfWork unitOfWork)
             : base(unitOfWork)
         {
         }
 
         [HttpGet]
-        [ActionName("online")]
-        public IEnumerable<User> Get()
+        [ActionName("all")]
+        public IEnumerable<User> GetAll()
         {
             return unitOfWork.Users.All();
         }
 
+        [HttpGet]
+        [ActionName("online")]
+        public IEnumerable<User> GetOnline()
+        {
+            return unitOfWork.Users.All().Where(x => x.Sessionkey != null);
+        }
 
         [HttpPost]
         [ActionName("register")]
-        public HttpResponseMessage Register(User user)
+        public User Register(User user)
         {
-            var responseMsg = this.PerformOperation(() =>
+            if (!ModelState.IsValid)
             {
-                unitOfWork.Users.Add(user);
-                //var sessionKey = UsersRepository.LoginUser();
-                return user;
-            });
-            return responseMsg;
+                throw new ArgumentException("Invalid credentials");
+            }
+
+            unitOfWork.Users.Add(user);
+            return user;
         }
 
         [HttpPost]
         [ActionName("login")]
-        public HttpResponseMessage Login(User user)
+        public User Login(User user)
         {
-            var responseMsg = this.PerformOperation(() =>
+            var dbUser = unitOfWork.Users.All().FirstOrDefault(
+                x => x.Username == user.Username && x.Password == user.Password);
+
+            if (dbUser == null)
             {
-                string nickname = string.Empty;
-                //var sessionKey = UsersRepository.LoginUser(user.Username, user.Password);
-                return user;
-            });
-            return responseMsg;
+                throw new ArgumentException("Invalid credentials");
+            }
+
+            dbUser.Sessionkey = GenerateSessionKey(user.UserId);
+            unitOfWork.Users.Update(dbUser.UserId, dbUser);
+
+            return dbUser;
         }
 
-        //[HttpGet]
-        //[ActionName("logout")]
-        //public HttpResponseMessage Logout(string sessionKey)
-        //{
-        //    var responseMsg = this.PerformOperation(() =>
-        //    {
-        //        UsersRepository.LogoutUser(sessionKey);
-        //    });
-        //    return responseMsg;
-        //}
+        [HttpPost]
+        [ActionName("logout")]
+        public HttpResponseMessage Logout(User user)
+        {
+            var dbUser = unitOfWork.Users.All().FirstOrDefault(x => x.Sessionkey == user.Sessionkey);
 
-        //[HttpGet]
-        //[ActionName("online")]
-        //public HttpResponseMessage GetOnlineUsers(string sessionKey)
-        //{
-        //    var responseMsg = this.PerformOperation(() =>
-        //    {
-        //        UsersRepository.GetOnlineUsers(sessionKey);
-        //    });
-        //    return responseMsg;
-        //}
+            if (dbUser == null)
+            {
+                throw new ArgumentException("User is not logged in");
+            }
+
+            dbUser.Sessionkey = null;
+            unitOfWork.Users.Update(dbUser.UserId, dbUser);
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        private static string GenerateSessionKey(int userId)
+        {
+            var keyChars = new StringBuilder();
+
+            keyChars.Append(userId.ToString());
+
+            while (keyChars.Length < SessionKeyLen)
+            {
+                int randomCharNum;
+                lock (random)
+                {
+                    randomCharNum = random.Next(SessionKeyChars.Length);
+                }
+                var randomKeyChar = SessionKeyChars[randomCharNum];
+                keyChars.Append(randomKeyChar);
+            }
+
+            var sessionKey = keyChars.ToString();
+            return sessionKey;
+        }
     }
 }

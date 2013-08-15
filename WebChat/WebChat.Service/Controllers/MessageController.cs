@@ -9,7 +9,7 @@ using WebChat.Service.Models;
 
 namespace WebChat.Service.Controllers
 {
-    public class MessageController : BaseControllerTemp
+    public class MessageController : BaseController
     {
         public MessageController(UnitOfWork unitOfWork)
             : base(unitOfWork)
@@ -19,9 +19,9 @@ namespace WebChat.Service.Controllers
         [HttpGet]
         public IEnumerable<MessageBase> Get(string sessionKey)
         {
-            if (sessionKey == null)
+            if (string.IsNullOrEmpty(sessionKey))
             {
-                throw new ArgumentException("Session key must not be null!");
+                throw new ArgumentNullException("sessionKey");
             }
 
             return unitOfWork.Messages.All().Where(x => x.Sender.Sessionkey == sessionKey && x.State);
@@ -29,28 +29,23 @@ namespace WebChat.Service.Controllers
 
         [HttpGet]
         [ActionName("byUsername")]
-        public HttpResponseMessage ByUsername(string sessionKey, string username)
+        public IEnumerable<MessageBase> ByUsername(string sessionKey, string username)
         {
-            if (sessionKey == null)
+            if (string.IsNullOrEmpty(sessionKey))
             {
-                throw new ArgumentException("Session key must not be null!");
+                throw new ArgumentNullException("sessionKey");
             }
 
-            var responseMsg = this.PerformOperation(() =>
+            var messages = unitOfWork.Messages.All().Where(
+                x => x.Reciever.Username == username && x.Sender.Sessionkey == sessionKey).ToList();
+
+            foreach (var message in messages)
             {
-                var messages = unitOfWork.Messages.All().Where(
-                    x => x.Reciever.Username == username && x.Sender.Sessionkey == sessionKey).ToList();
+                message.State = true;
+                unitOfWork.Messages.Update(message.MessageId, message);
+            }
 
-                foreach (var message in messages)
-                {
-                    message.State = true;
-                    unitOfWork.Messages.Update(message.MessageId, message);
-                }
-
-                return messages;
-            });
-
-            return responseMsg;
+            return messages;
         }
     }
 }

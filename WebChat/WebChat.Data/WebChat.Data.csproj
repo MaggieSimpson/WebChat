@@ -51,7 +51,6 @@
       <DependentUpon>201308142123319_Add indices.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Repositories\MessageRepository.cs" />
     <Compile Include="WebChatContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

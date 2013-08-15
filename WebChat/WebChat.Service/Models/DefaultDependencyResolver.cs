@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Http.Dependencies;
-using WebChat.Data;
 using WebChat.Service.Controllers;
 
 namespace WebChat.Service.Models
 {
     public class DefaultDependencyResolver : IDependencyResolver
     {
-        private WebChatContext db = new WebChatContext();
-
         public IDependencyScope BeginScope()
         {
             // This example does not support child scopes, so we simply return 'this'.
@@ -24,14 +19,13 @@ namespace WebChat.Service.Models
             {
                 return new UserController(new UnitOfWork());
             }
-            else if (serviceType == typeof(MessageController))
+
+            if (serviceType == typeof(MessageController))
             {
                 return new MessageController(new UnitOfWork());
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
 
         public IEnumerable<object> GetServices(Type serviceType)
@@ -42,7 +36,6 @@ namespace WebChat.Service.Models
         public void Dispose()
         {
             // When BeginScope returns 'this', the Dispose method must be a no-op.
-            //db.Dispose();
         }
     }
 }
