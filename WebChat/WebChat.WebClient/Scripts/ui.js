@@ -31,7 +31,12 @@
 
         var ul = '<ul id="user-messages">';
         for (var i = users.length - 1; i >= 0; i--) {
-            var li = appendRecievedMessage(users[i].content, users[i].sender.username);
+            var li;
+            if (users[i].content) {
+                li = appendRecievedMessage(users[i].content, users[i].sender.username);
+            } else {
+                li = appendRecievedFile(users[i].filePath, users[i].sender.username);
+            }
             ul += li;
         }
 
@@ -49,6 +54,14 @@
         return li;
     }
 
+    function appendRecievedFile(messageContent, senderUsername) {
+        var li = '<li class = "message">';
+        li += '<div><h2>Sender: ' + senderUsername + '</h2></div>';
+        li += '<div class="file-content"><h2>File: <a href ="' + messageContent + '">CLICK ME</a></h2></div>';
+        li += '</li>';
+        return li;
+    }
+
     function getProfileInfo(username) {
         var div = '<div id="profile-info-holder">';
         div += '<h2>' + username + '</h2>';
@@ -60,7 +73,8 @@
         buildOnlineUsersList: buildOnlineUsersList,
         buildMessages: buildMessages,
         appendRecievedMessage: appendRecievedMessage,
-        getProfileInfo: getProfileInfo
+        getProfileInfo: getProfileInfo,
+        appendRecievedFile: appendRecievedFile
     };
 
 }());

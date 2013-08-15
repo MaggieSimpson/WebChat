@@ -50,7 +50,7 @@ var controllers = (function () {
                             if (message.Content) {
                                 li = ui.appendRecievedMessage(message.Content, self.persister.username());
                             } else {
-                                li = ui.appendRecievedMessage(message.FilePath, self.persister.username());
+                                li = ui.appendRecievedFile(message.FilePath, self.persister.username());
                             }
                             $("#user-messages").prepend(li);
                         } else {
@@ -129,8 +129,9 @@ var controllers = (function () {
 
             wrapper.on("submit", "#sendFileForm", (function (e) {
                 var formData = new FormData(this);
-                self.persister.message.sendFile(self.currentReciever, formData, function () {
-                    console.log("file send");
+                self.persister.message.sendFile(self.currentReciever, formData, function (data) {
+                    var li = ui.appendRecievedFile(data.filePath, self.persister.username());
+                    $("#user-messages").prepend(li);
                 }, function (err) {
                     console.log(err);
                 });
@@ -158,11 +159,8 @@ var controllers = (function () {
                 input.attr('disabled', 'disabled');
                 var recieverUsername = self.currentReciever;
                 self.persister.message.send(recieverUsername, input.val(), function () {
-
                     input.removeAttr('disabled');
-
                     var li = ui.appendRecievedMessage(input.val(), self.persister.username());
-
                     $("#user-messages").prepend(li);
                     input.val("");
                 }, function () {
