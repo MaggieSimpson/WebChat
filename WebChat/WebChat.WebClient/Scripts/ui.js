@@ -24,6 +24,10 @@
         div += '<form id="form-send-message">' +
             '<input type = "text" name="content" autofocus/>' +
         '</form>';
+        div += '<form id="sendFileForm" enctype="multipart/form-data">' +
+                    '<input name="file" type="file" />' +
+                    '<input type="submit" id="Upload" value="Upload" />' +
+                '</form>';
 
         var ul = '<ul id="user-messages">';
         for (var i = users.length - 1; i >= 0; i--) {

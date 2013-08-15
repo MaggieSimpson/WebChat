@@ -146,6 +146,12 @@ var persisters = (function () {
             };
 
             httpRequester.postJSON(url, messageData, success, error);
+        },
+
+        sendFile: function (recieverUsername, messageData, success, error) {
+            var url = this.rootUrl + "sendFile?sessionkey=" + sessionkey + "&reciever=" + recieverUsername;
+
+            httpRequester.postFile(url, messageData, success, error);
         }
     });
 

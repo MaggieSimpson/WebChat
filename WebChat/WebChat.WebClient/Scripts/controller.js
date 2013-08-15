@@ -12,8 +12,7 @@ var controllers = (function () {
         loadUI: function (selector) {
             if (this.persister.isUserLoggedIn()) {
                 this.loadLoggedUserUI(selector);
-            }
-            else {
+            } else {
                 this.loadLoginFormUI(selector);
             }
             this.attachUIEventHandlers(selector);
@@ -29,7 +28,7 @@ var controllers = (function () {
                 self.persister.user.online(function (data) {
                     var users = ui.buildOnlineUsersList(data);
                     $(selector).append(users);
-                }, function (error) { alert(JSON.stringify(error)) });
+                }, function (error) { alert(JSON.stringify(error)); });
                 var channel = self.persister.username() + "-channel";
 
                 //$("#btn-logout").text("Logout ");
@@ -37,7 +36,8 @@ var controllers = (function () {
                 var profileUrl = self.persister.user.profilePicture(function (data) {
                     $("#profile-picture").attr("src", data);
 
-                }, function () { });
+                }, function () {
+                });
                 var profileInfo = ui.getProfileInfo(username);
                 $(selector).append(profileInfo);
 
@@ -48,15 +48,11 @@ var controllers = (function () {
                         if (message.Sender.Username == self.currentReciever) {
                             var li = ui.appendRecievedMessage(message.Content, self.persister.username());
                             $("#user-messages").prepend(li);
-                        }
-
-                        else {
+                        } else {
                             $(".online-user[data-username=" + message.Sender.Username + "]").addClass('unread');
                         }
                     }
                 });
-
-
             });
         },
 
@@ -79,15 +75,14 @@ var controllers = (function () {
                 wrapper.find("#login-form").hide();
             });
             wrapper.on("click", "#btn-logout", function () {
-                self.persister.user.logout(function () { self.loadLoginFormUI(selector) }, function () { alert("logout err") });
+                self.persister.user.logout(function () { self.loadLoginFormUI(selector); }, function () { alert("logout err"); });
             });
 
             wrapper.on("click", "#btn-login", function () {
                 var user = {
                     username: $(selector + " #tb-login-username").val(),
                     password: $(selector + " #tb-login-password").val()
-                }
-
+                };
                 self.persister.user.login(user, function () {
                     self.loadLoggedUserUI(selector);
                 }, function (err) {
@@ -103,7 +98,7 @@ var controllers = (function () {
                     lastName: $(selector).find("#tb-register-lastName").val(),
                     username: $(selector).find("#tb-register-username").val(),
                     password: $(selector + " #tb-register-password").val()
-                }
+                };
                 self.persister.user.register(user, function () {
                     self.loadLoginFormUI(selector);
                 }, function (err) {
@@ -111,11 +106,21 @@ var controllers = (function () {
                 return false;
             });
 
-            wrapper.on("click", "#btn-submit-image", function (e) {
-                e.stopPropagation();
-                self.persister.user.uploadImage(function () { alert("success picture upload") },
-                    function () { alert("error picture upload") });
-            });
+            wrapper.on("submit", "#uploadImageForm", (function (e) {
+                var formData = new FormData(this);
+
+                self.persister.user.uploadProfilePicture(formData, function () {
+                    self.persister.user.profilePicture(function (data) {
+                        $("#profile-picture").attr("src", data);
+                    }, function () {
+                        alert("Error getting profile picture");
+                    });
+                }, function () {
+                    alert("Error uploading picture");
+                });
+
+                e.preventDefault();
+            }));
 
             wrapper.on("click", ".online-user", function () {
                 $(this).removeClass('unread');
@@ -134,7 +139,7 @@ var controllers = (function () {
                 event.preventDefault();
 
                 var input = $(this).find("[name=content]");
-                input.attr('disabled', 'disabled')
+                input.attr('disabled', 'disabled');
                 var recieverUsername = self.currentReciever;
                 self.persister.message.send(recieverUsername, input.val(), function () {
 
@@ -144,7 +149,8 @@ var controllers = (function () {
 
                     $("#user-messages").prepend(li);
                     input.val("");
-                }, function () { });
+                }, function () {
+                });
             });
         },
 
@@ -156,7 +162,7 @@ var controllers = (function () {
         get: function () {
             return new Controller();
         }
-    }
+    };
 }());
 
 var controller;

@@ -28,7 +28,7 @@ var httpRequester = (function () {
             url: url,
             data: data,
             cache: false,
-            contentType: "multipart/form-data",
+            contentType: false,
             processData: false,
             type: 'POST',
             success: success,

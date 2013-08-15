@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using Newtonsoft.Json;
 using WebChat.Data;
@@ -58,7 +60,52 @@ namespace WebChat.Service.Controllers
 
         [HttpPost]
         [ActionName("send")]
-        public TextMessage Send([FromBody]TextMessageInfo info)
+        public FileMessage Send([FromBody]TextMessageInfo info)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new ArgumentException("Invalid credentials");
+            }
+
+            var sender = unitOfWork.Users.All().FirstOrDefault(x => x.Sessionkey == info.SessionKey);
+
+            var reciever = unitOfWork.Users.All().FirstOrDefault(x => x.Username == info.Reciever);
+
+            string url = UploadFile(HttpContext.Current.Request.Files[0], sender);
+
+            FileMessage message = new FileMessage()
+            {
+                FilePath = url,
+                Date = DateTime.Now,
+                Reciever = reciever,
+                Sender = sender,
+                State = false
+            };
+
+            unitOfWork.Messages.Add(message);
+
+            string channel = info.Reciever + "-channel";
+
+            PubnubContext.Publish(channel, JsonConvert.SerializeObject(message));
+
+            return message;
+        }
+
+        private string UploadFile(HttpPostedFile postedFile, User dbUser)
+        {
+            var fileName = DateTime.Now.Ticks + dbUser.Username + postedFile.FileName;
+            var path = HttpContext.Current.Server.MapPath("~/App_Data/") + fileName;
+            postedFile.SaveAs(path);
+
+            var url = DropBoxUploader.UploadProfilePicToDropBox(path, fileName);
+            File.Delete(path);
+
+            return url;
+        }
+
+        [HttpPost]
+        [ActionName("sendFile")]
+        public TextMessage SendFile([FromBody]FileMessageInfo info)
         {
             if (!ModelState.IsValid)
             {
@@ -71,7 +118,6 @@ namespace WebChat.Service.Controllers
 
             TextMessage message = new TextMessage()
             {
-                Content = info.Content,
                 Date = DateTime.Now,
                 Reciever = reciever,
                 Sender = sender,

@@ -39,7 +39,7 @@ namespace WebChat.Data
             //Console.WriteLine("Hi " + profile.DisplayName + "!");
 
             // Create new folder
-            string newFolderName =  DateTime.Now.Ticks.ToString();
+            string newFolderName = DateTime.Now.Ticks.ToString();
             Entry createFolderEntry = dropbox.CreateFolderAsync(newFolderName).Result;
             //Console.WriteLine("Created folder: {0}", createFolderEntry.Path);
 
