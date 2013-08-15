@@ -80,7 +80,7 @@ namespace WebChat.Service.Controllers
 
             unitOfWork.Messages.Add(message);
 
-            string channel = "stamat-channel";
+            string channel = info.Reciever + "-channel";
 
             PubnubContext.Publish(channel, JsonConvert.SerializeObject(message));
 

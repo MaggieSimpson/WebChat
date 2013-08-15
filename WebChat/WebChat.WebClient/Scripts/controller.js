@@ -1,14 +1,12 @@
 ﻿/// <reference path="jquery-2.0.3.min.js" />
 
 var controllers = (function () {
-
-    var updateTimer = null;
-
     var rootUrl = "http://localhost:49530/api/";
 
     var Controller = Class.create({
         init: function () {
             this.persister = persisters.get(rootUrl);
+            this.currentReciever = null;
         },
 
         loadUI: function (selector) {
@@ -26,22 +24,31 @@ var controllers = (function () {
         },
 
         loadLoggedUserUI: function (selector) {
-            $(selector).load('/PartialHtmls/ProfilePicture.html');
-            this.persister.user.online(function (data) {
-                var users = ui.buildOnlineUsersList(data);
-                $(selector).append(users);
-            }, function (error) { alert(JSON.stringify(error)) });
-            var channel = "stamat-channel";
-            PUBNUB.subscribe({
-                channel: channel,
-                callback: function (message) {
-                    var messageContent = JSON.parse(message);
-                    var li = '<li class = "message">';
-                    li += messageContent.Sender.Username;
-                    li += '<div class="message-content">' + messageContent.Content + '</div>';
-                    li += '</li>';
-                    $("#user-messages").append(li);
-                }
+            var self = this;
+            $(selector).load('/PartialHtmls/ProfilePicture.html', function () {
+                self.persister.user.online(function (data) {
+                    var users = ui.buildOnlineUsersList(data);
+                    $(selector).append(users);
+                }, function (error) { alert(JSON.stringify(error)) });
+                var channel = self.persister.username() + "-channel";
+                $("#btn-logout").text("Logout " + self.persister.username());
+                PUBNUB.subscribe({
+                    channel: channel,
+                    callback: function (message) {
+                        var message = JSON.parse(message);
+                        debugger;
+                        if (message.Sender.Username == self.currentReciever) {
+                            var li = ui.AppendRecievedMessage(message.Content, self.persister.username());
+                            $("#user-messages").prepend(li);
+                        }
+
+                        else {
+                            $(".online-user[data-username=" + message.Sender.Username + "]").addClass('unread');
+                        }
+                    }
+                });
+  
+              
             });
         },
 
@@ -103,13 +110,14 @@ var controllers = (function () {
             });
 
             wrapper.on("click", ".online-user", function () {
-                //username
+                $(this).removeClass('unread');
                 var username = $(this).data("username");
                 self.persister.message.byUsername(username, function (data) {
                     $("#messages-wrapper").remove();
                     var messages = ui.buildMessages(data);
                     $(selector).append(messages);
-                    $("#messages-wrapper").data("recieverUsername", username);
+                    debugger;
+                    self.currentReciever = username;
                 }, function (err) {
                 });
                 return false;
@@ -120,11 +128,15 @@ var controllers = (function () {
 
                 var input = $(this).find("[name=content]");
                 input.attr('disabled', 'disabled')
-                var recieverUsername = $("#messages-wrapper").data("recieverUsername");
+                var recieverUsername = self.currentReciever;
                 self.persister.message.send(recieverUsername, input.val(), function () {
-                    input.val("");
+
                     input.removeAttr('disabled');
 
+                    var li = ui.AppendRecievedMessage(input.val(), self.persister.username());
+
+                    $("#user-messages").prepend(li);
+                    input.val("");
                 }, function () { });
             });
         },
