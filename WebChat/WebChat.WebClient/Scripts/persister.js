@@ -34,6 +34,10 @@ var persisters = (function () {
 
         username: function () {
             return username;
+        },
+
+        sessionKey: function () {
+            return sessionkey;
         }
     });
 

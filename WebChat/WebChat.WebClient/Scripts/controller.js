@@ -152,7 +152,8 @@ var controllers = (function () {
     }
 }());
 
+var controller;
 $(function () {
-    var controller = controllers.get();
+    controller = controllers.get();
     controller.loadUI("#content");
 });

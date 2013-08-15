@@ -8,6 +8,12 @@
     </div>
 </div>
 <button id="btn-logout">Logout</button>
-<!--<script>
-    $("#uploadImageForm").submit(function (e) { e.preventDefault(); });
-</script>-->
+<script>
+    var sessionKey = controller.persister.sessionKey();
+    var currentAction = $("#uploadImageForm").attr("action");
+    $("#uploadImageForm").attr("action", currentAction + "?sessionKey=" + sessionKey);
+
+    $("#uploadImageForm").submit(function (e) {
+
+    });
+</script>

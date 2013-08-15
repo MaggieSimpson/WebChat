@@ -70,7 +70,7 @@ namespace WebChat.Service.Controllers
 
         [HttpPost]
         [ActionName("uploadImage")]
-        public async Task<HttpResponseMessage> UploadImage()
+        public async Task<HttpResponseMessage> UploadImage(string sessionKey)
         {
             // Check if the request contains multipart/form-data.
             if (!Request.Content.IsMimeMultipartContent())
