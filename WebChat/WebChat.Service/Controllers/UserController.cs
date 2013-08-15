@@ -73,7 +73,6 @@ namespace WebChat.Service.Controllers
 
             if (dbUser == null)
             {
-<<<<<<< HEAD
                 throw new ArgumentException("User is not logged in");
             }
 
@@ -81,13 +80,6 @@ namespace WebChat.Service.Controllers
             unitOfWork.Users.Update(dbUser.UserId, dbUser);
 
             return Request.CreateResponse(HttpStatusCode.OK);
-=======
-                string username = string.Empty;
-                //var sessionKey = UsersRepository.LoginUser(user.Username, user.Password);
-                return user;
-            });
-            return responseMsg;
->>>>>>> f8c1e6a05bd34f3ef40a5d90b86f4ce73840f93d
         }
 
         private static string GenerateSessionKey(int userId)
