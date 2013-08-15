@@ -34,9 +34,29 @@ namespace WebChat.Service.Controllers
 
         [HttpGet]
         [ActionName("online")]
-        public IEnumerable<User> GetOnlineUsers(string sessionKey)
+        public IEnumerable<UserModel> GetOnlineUsers(string sessionKey)
         {
-            return unitOfWork.Users.All().Where(x => x.Sessionkey != null && x.Sessionkey != sessionKey);
+            HashSet<UserModel> onlineUsers = new HashSet<UserModel>();
+            var users = unitOfWork.Users.All().Where(x => x.Sessionkey != null && x.Sessionkey != sessionKey).ToList();
+
+            var messages = unitOfWork.Messages.All().GroupBy(x => x.Reciever.Username).ToDictionary(x => x.Key, x => x.ToList());
+            var dbUser = unitOfWork.Users.All().First(x => x.Sessionkey == sessionKey);
+
+            foreach (var user in users)
+            {
+                bool hasUnreadMessages = messages[dbUser.Username].Any(x => x.State == false && x.Sender.Username == user.Username);
+
+                UserModel userModel = new UserModel()
+                {
+                    MessagesState = hasUnreadMessages,
+                    ProfilePicture = user.ProfilePicture,
+                    Username = user.Username
+                };
+
+                onlineUsers.Add(userModel);
+            }
+
+            return onlineUsers;
         }
 
         [HttpGet]

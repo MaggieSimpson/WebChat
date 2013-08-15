@@ -18,6 +18,7 @@ namespace WebChat.Service.Models
                 this.Users = new DatabaseRepository<User>(db);
             }
 
+            //var dbMessages = new WebChatContext();
             {
                 this.Messages = new DatabaseRepository<MessageBase>(db);
             }

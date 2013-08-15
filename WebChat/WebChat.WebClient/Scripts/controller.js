@@ -28,7 +28,7 @@ var controllers = (function () {
                 self.persister.user.online(function (data) {
                     var users = ui.buildOnlineUsersList(data);
                     $(selector).append(users);
-                }, function (error) { alert(JSON.stringify(error)); });
+                }, function (error) { console.log(error); });
                 var channel = self.persister.username() + "-channel";
 
                 //$("#btn-logout").text("Logout ");

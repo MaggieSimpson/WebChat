@@ -2,13 +2,16 @@
     function buildOnlineUsersList(users) {
         var div = '<div id ="online-users-holder"><h1>Online users</h1>'
         var ul = '<ul id="online-users">';
-
         for (var i = users.length - 1; i >= 0; i--) {
-            var li = '<li class = "online-user" data-username=' + users[i].username + '>';
-            li += users[i].username;
-            li += '<img src="' + users[i].profilePicture + '" width="30" height = "50" />';
-            li += '</li>';
-            ul += li;
+            var li = $('<li class = "online-user" data-username=' + users[i].username + '/>');
+
+            li.text(users[i].username);
+            li.append('<img src="' + users[i].profilePicture + '" width="30" height = "50" />');
+            if (users[i].messagesState)
+            {
+                li.addClass("unread");
+            }
+            ul +=li[0].outerHTML;
         }
 
         ul += '</ul>';
