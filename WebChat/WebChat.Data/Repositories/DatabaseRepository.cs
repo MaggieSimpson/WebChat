@@ -27,6 +27,10 @@ namespace WebChat.Data.Repositories
 
         public void Add(T item)
         {
+            if (item == null)
+            {
+                throw new NullReferenceException("item");
+            }
             this.db.Set<T>().Add(item);
             this.db.SaveChanges();
         }
