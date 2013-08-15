@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using WebChat.Data;
 using WebChat.Models;
 using WebChat.Service.Models;
 
@@ -91,6 +92,7 @@ namespace WebChat.Service.Controllers
                 {
                     Trace.WriteLine(file.Headers.ContentDisposition.FileName);
                     Trace.WriteLine("Server file path: " + file.LocalFileName);
+                    DropBoxUploader.UploadProfilePicToDropBox(file.LocalFileName, file.Headers.ContentDisposition.FileName);
                 }
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
