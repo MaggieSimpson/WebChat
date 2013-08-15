@@ -46,7 +46,12 @@ var controllers = (function () {
                     callback: function (message) {
                         var message = JSON.parse(message);
                         if (message.Sender.Username == self.currentReciever) {
-                            var li = ui.appendRecievedMessage(message.Content, self.persister.username());
+                            var li;
+                            if (message.Content) {
+                                li = ui.appendRecievedMessage(message.Content, self.persister.username());
+                            } else {
+                                li = ui.appendRecievedMessage(message.FilePath, self.persister.username());
+                            }
                             $("#user-messages").prepend(li);
                         } else {
                             $(".online-user[data-username=" + message.Sender.Username + "]").addClass('unread');
@@ -117,6 +122,17 @@ var controllers = (function () {
                     });
                 }, function () {
                     alert("Error uploading picture");
+                });
+
+                e.preventDefault();
+            }));
+
+            wrapper.on("submit", "#sendFileForm", (function (e) {
+                var formData = new FormData(this);
+                self.persister.message.sendFile(self.currentReciever, formData, function () {
+                    console.log("file send");
+                }, function (err) {
+                    console.log(err);
                 });
 
                 e.preventDefault();

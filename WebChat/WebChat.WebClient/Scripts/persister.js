@@ -106,14 +106,6 @@ var persisters = (function () {
             }, error)
         },
 
-        uploadImage: function (success, error) {
-            var url = this.rootUrl + "uploadImage/";
-            httpRequester.postJSON(url, {
-                sessionkey: sessionkey
-            }, function (data) {
-            }, error)
-        },
-
         online: function (success, error) {
             var url = this.rootUrl + "online/?sessionKey=" + sessionkey;
 
@@ -151,7 +143,7 @@ var persisters = (function () {
         sendFile: function (recieverUsername, messageData, success, error) {
             var url = this.rootUrl + "sendFile?sessionkey=" + sessionkey + "&reciever=" + recieverUsername;
 
-            httpRequester.postFile(url, messageData, success, error);
+            httpRequester.postFileData(url, messageData, success, error);
         }
     });
 

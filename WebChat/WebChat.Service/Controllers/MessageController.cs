@@ -59,17 +59,17 @@ namespace WebChat.Service.Controllers
         }
 
         [HttpPost]
-        [ActionName("send")]
-        public FileMessage Send([FromBody]TextMessageInfo info)
+        [ActionName("sendFile")]
+        public FileMessage SendFile(string sessionKey, string reciever)
         {
             if (!ModelState.IsValid)
             {
                 throw new ArgumentException("Invalid credentials");
             }
 
-            var sender = unitOfWork.Users.All().FirstOrDefault(x => x.Sessionkey == info.SessionKey);
+            var sender = unitOfWork.Users.All().FirstOrDefault(x => x.Sessionkey == sessionKey);
 
-            var reciever = unitOfWork.Users.All().FirstOrDefault(x => x.Username == info.Reciever);
+            var recieverUser = unitOfWork.Users.All().FirstOrDefault(x => x.Username == reciever);
 
             string url = UploadFile(HttpContext.Current.Request.Files[0], sender);
 
@@ -77,14 +77,14 @@ namespace WebChat.Service.Controllers
             {
                 FilePath = url,
                 Date = DateTime.Now,
-                Reciever = reciever,
+                Reciever = recieverUser,
                 Sender = sender,
                 State = false
             };
 
             unitOfWork.Messages.Add(message);
 
-            string channel = info.Reciever + "-channel";
+            string channel = reciever + "-channel";
 
             PubnubContext.Publish(channel, JsonConvert.SerializeObject(message));
 
@@ -104,8 +104,8 @@ namespace WebChat.Service.Controllers
         }
 
         [HttpPost]
-        [ActionName("sendFile")]
-        public TextMessage SendFile([FromBody]FileMessageInfo info)
+        [ActionName("send")]
+        public TextMessage Send([FromBody]TextMessageInfo info)
         {
             if (!ModelState.IsValid)
             {
@@ -118,6 +118,7 @@ namespace WebChat.Service.Controllers
 
             TextMessage message = new TextMessage()
             {
+                Content = info.Content,
                 Date = DateTime.Now,
                 Reciever = reciever,
                 Sender = sender,
