@@ -5,19 +5,24 @@
 var persisters = (function () {
     var username = localStorage.getItem("username");
     var sessionkey = localStorage.getItem("sessionkey");
-
+    var profilePictureUrl = localStorage.getItem("profilePicture");
     function saveUserData(userData) {
         localStorage.setItem("username", userData.username);
         localStorage.setItem("sessionkey", userData.sessionkey);
+        localStorage.setItem("profilePicture", userData.profilePicture);
         username = userData.username;
         sessionkey = userData.sessionkey;
+        profilePictureUrl = userData.profilePicture;
     }
 
     function clearUserData() {
         localStorage.removeItem("username");
         localStorage.removeItem("sessionkey");
+        localStorage.removeItem("profilePicture");
+
         username = "";
         sessionkey = "";
+        profilePictureUrl = "";
     }
 
     var MainPersister = Class.create({
@@ -34,6 +39,10 @@ var persisters = (function () {
 
         username: function () {
             return username;
+        },
+
+        profilePictureUrl: function () {
+            return profilePictureUrl;
         },
 
         sessionKey: function () {

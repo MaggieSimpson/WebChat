@@ -6,6 +6,7 @@ namespace WebChat.Models
 {
     public class User
     {
+        private const string DefaultProfilePicture = @"https://dl.dropboxusercontent.com/s/d233p4wp0cq3brd/635121680385573269%22default.png%22?token_hash=AAFtnHEFFxEtH6Nhr5rdR3ur8Oz_9wIDa8QvPnxJaBaJ-Q&dl=1";
         public int UserId { get; set; }
 
         public string FirstName { get; set; }
@@ -31,6 +32,7 @@ namespace WebChat.Models
         public User()
         {
             this.Messages = new HashSet<MessageBase>();
+            this.ProfilePicture = DefaultProfilePicture;
         }
     }
 }

@@ -31,7 +31,13 @@ var controllers = (function () {
                     $(selector).append(users);
                 }, function (error) { alert(JSON.stringify(error)) });
                 var channel = self.persister.username() + "-channel";
-                $("#btn-logout").text("Logout " + self.persister.username());
+
+                //$("#btn-logout").text("Logout ");
+                var username = self.persister.username();
+                var profileUrl = self.persister.profilePictureUrl();
+                var profileInfo = ui.getProfileInfo(username, profileUrl);
+                $(selector).append(profileInfo);
+
                 PUBNUB.subscribe({
                     channel: channel,
                     callback: function (message) {

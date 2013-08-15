@@ -44,10 +44,18 @@
         return li;
     }
 
+    function getProfileInfo(username, profileUrl) {
+        var div = '<div id="profile-info-holder">';
+        div += '<h2>' + username + '</h2>';
+        div += '<img src = "' + profileUrl + '" width= "70" height = "50"/>';
+        return div;
+    }
+
     return {
         buildOnlineUsersList: buildOnlineUsersList,
         buildMessages: buildMessages,
-        AppendRecievedMessage: AppendRecievedMessage
+        AppendRecievedMessage: AppendRecievedMessage,
+        getProfileInfo: getProfileInfo
     }
 
 }());

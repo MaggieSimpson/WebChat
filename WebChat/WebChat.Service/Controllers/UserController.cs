@@ -71,7 +71,7 @@ namespace WebChat.Service.Controllers
 
         [HttpPost]
         [ActionName("uploadImage")]
-        public async Task<HttpResponseMessage> UploadImage(string sessionKey)
+        public async Task<HttpResponseMessage> UploadImage(string sessionkey)
         {
             // Check if the request contains multipart/form-data.
             if (!Request.Content.IsMimeMultipartContent())
@@ -87,12 +87,17 @@ namespace WebChat.Service.Controllers
                 // Read the form data.
                 await Request.Content.ReadAsMultipartAsync(provider);
 
+                var dbUser = unitOfWork.Users.All().FirstOrDefault(x => x.Sessionkey == sessionkey);
+
                 // This illustrates how to get the file names.
                 foreach (MultipartFileData file in provider.FileData)
                 {
                     Trace.WriteLine(file.Headers.ContentDisposition.FileName);
                     Trace.WriteLine("Server file path: " + file.LocalFileName);
-                    DropBoxUploader.UploadProfilePicToDropBox(file.LocalFileName, file.Headers.ContentDisposition.FileName);
+                    var url = DropBoxUploader.UploadProfilePicToDropBox(file.LocalFileName, file.Headers.ContentDisposition.FileName);
+                    dbUser.ProfilePicture = url;
+                    unitOfWork.Users.Update(dbUser.UserId, dbUser);
+                    break;
                 }
                 return Request.CreateResponse(HttpStatusCode.OK);
             }

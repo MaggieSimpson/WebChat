@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DropboxAuthentication.cs" />
     <Compile Include="FileMessage.cs" />
     <Compile Include="MessageBase.cs" />
     <Compile Include="TextMessage.cs" />

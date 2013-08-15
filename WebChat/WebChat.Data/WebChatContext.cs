@@ -9,7 +9,6 @@ namespace WebChat.Data
     {
         public DbSet<User> Users { get; set; }
         public DbSet<MessageBase> Messages { get; set; }
-
-
+        public DbSet<DropboxAuthentication> DropboxAuthentication { get; set; }
     }
 }
