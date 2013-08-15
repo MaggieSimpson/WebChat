@@ -94,7 +94,8 @@ namespace WebChat.Service.Controllers
                 {
                     Trace.WriteLine(file.Headers.ContentDisposition.FileName);
                     Trace.WriteLine("Server file path: " + file.LocalFileName);
-                    var url = DropBoxUploader.UploadProfilePicToDropBox(file.LocalFileName, file.Headers.ContentDisposition.FileName);
+                    string fileName = file.LocalFileName;
+                    var url = DropBoxUploader.UploadProfilePicToDropBox(fileName, file.Headers.ContentDisposition.FileName);
                     dbUser.ProfilePicture = url;
                     unitOfWork.Users.Update(dbUser.UserId, dbUser);
                     break;

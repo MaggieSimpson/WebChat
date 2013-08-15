@@ -50,9 +50,9 @@ namespace WebChat.Data
             //Console.WriteLine("Uploaded a file: {0}", uploadFileEntry.Path);
 
             // Share a file
-            DropboxLink sharedUrl = dropbox.GetShareableLinkAsync(uploadFileEntry.Path).Result;
-            Process.Start(sharedUrl.Url);
-            return sharedUrl.Url;
+            DropboxLink sharedUrl = dropbox.GetMediaLinkAsync(uploadFileEntry.Path).Result;
+            //Process.Start(sharedUrl.Url);
+            return sharedUrl.Url.ToString();
         }
 
         private static OAuthToken LoadOAuthToken()
