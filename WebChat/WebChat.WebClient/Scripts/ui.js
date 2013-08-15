@@ -1,12 +1,12 @@
 ﻿var ui = (function () {
     function buildOnlineUsersList(users) {
-        var div = '<div id ="online-users-holder"><h1>Online users</h1>'
+        var div = '<h1>Online users</h1>'
         var ul = '<ul id="online-users">';
         for (var i = users.length - 1; i >= 0; i--) {
             var li = $('<li class = "online-user" data-username=' + users[i].username + '/>');
 
             li.text(users[i].username);
-            li.append('<img src="' + users[i].profilePicture + '" width="30" height = "50" />');
+            li.prepend('<img src="' + users[i].profilePicture + '" width="30" height = "50" />');
             if (users[i].messagesState)
             {
                 li.addClass("unread");
@@ -16,21 +16,21 @@
 
         ul += '</ul>';
         div += ul;
-        div += '</div>';
+        //div += '</div>';
 
         return div;
     }
 
     function buildMessages(users) {
-        var div = '<div id="messages-wrapper">';
+        var div = '';
 
         div += '<form id="form-send-message">' +
             '<input type = "text" name="content" autofocus/>' +
         '</form>';
-        div += '<form id="sendFileForm" enctype="multipart/form-data">' +
-                    '<input name="file" type="file" />' +
-                    '<input type="submit" id="Upload" value="Upload" />' +
-                '</form>';
+        //div += '<form id="sendFileForm" enctype="multipart/form-data">' +
+        //            '<input name="file" type="file" />' +
+        //            '<input type="submit" id="UploadFile" value="Upload" />' +
+        //        '</form>';
 
         var ul = '<ul id="user-messages">';
         for (var i = users.length - 1; i >= 0; i--) {
@@ -44,8 +44,12 @@
         }
 
         ul += '</ul>';
-        div += ul;
-        div += '</div>';
+        div += ul
+        div += '<form id="sendFileForm" enctype="multipart/form-data">' +
+                    '<input name="file" type="file" id="chooseFile" /><br/>' +
+                    '<input type="submit" id="UploadFile" value="Upload" />' +
+                '</form>';
+        //div += '</div>';
         return div;
     }
 
@@ -73,14 +77,14 @@
 
     function appendRecievedFile(messageContent, senderUsername) {
         var li = '<li class = "message">';
-        li += '<div><h2>Sender: ' + senderUsername + '</h2></div>';
-        li += '<div class="file-content"><h2>File: <a href ="' + messageContent + '">CLICK ME</a></h2></div>';
+        li += '<h2>' + senderUsername ;
+        li += ': <a href ="' + messageContent + '">CLICK ME</a></h2>';
         li += '</li>';
         return li;
     }
 
     function getProfileInfo(username) {
-        var div = '<div id="profile-info-holder">';
+        var div = '';
         div += '<h2>' + username + '</h2>';
         div += '<img id= "profile-picture" src = "" width= "70" height = "50"/>';
         return div;

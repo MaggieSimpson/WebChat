@@ -1,156 +1,193 @@
 ﻿body
 {
 	padding: 0px;
-    background-color: gray;
+	background-color: gray;
+	font-family: Georgia;
+}
+
+ul
+{
+	list-style-type: none;
+}
+li
+{
+	margin:3px;
+	padding:0;
+}
+
+	li h2
+	{
+		margin:0;
+		padding:0;
+	}
+
+#chat-title
+{
+	height: 5%;
+	border: 2px solid #6DC56D;;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 30px;
+	margin-bottom: 10px;
+	font-size: x-large;
+	font-weight: bolder;
 }
 
 #content
 {
-	position:relative;
-}
-
-button
-{
-	background-color:limegreen;
-	padding:5px 7px;
-	margin:5px;
-	border:1px solid green;
-	border-radius:10px;
-}
-
-	button:hover
-	{
-		background-color:lightseagreen;
-	}
-ul
-{
-	list-style-type:none;
+	background-color: lightgreen;
+	width: 960px;
+	margin: 0 auto;
+	height: 600px;
+	border: 2px solid darkblue;
+	padding: 5px;
+	position: relative;
 }
 
 #online-users-holder
 {
+	display: inline-block;
+	float: left;
+	margin-left: 25px;
+	height: 62%;
+	width: 28%;
+	border: 2px solid #6DC56D;;
+}
+
+	#online-users-holder li
+	{
+		font-size: 1.3em;
+		vertical-align: middle;
+	}
+
+#messages-wrapper
+{
+	display: inline-block;
+	float: left;
+	height: 92%;
+	width: 47%;
+	margin-left: 12px;
+}
+
+#user-messages
+{
+	height: 86%;
+	border: 2px solid #6DC56D;
+	margin-bottom: 13px;
+	overflow: auto;
+}
+
+	#user-messages li
+	{
+		font-size: 0.5em;
+	}
+
+#form-send-message
+{
+	height: 8%;
+	padding: 7px 0;
+	width: 100%;
+	border: 2px solid #6DC56D;
+	text-align: center;
+}
+
+	#form-send-message input
+	{
+		height: 90%;
+		width: 90%;
+	}
+
+#profile-info-holder
+{
+	text-align:center;
+	display: inline-block;
+	float: left;
+	height: 92%;
+	width: 20%;
+	border: 2px solid #6DC56D;
+}
+
+	#profile-info-holder img
+	{
+		width: 150px;
+		height: 200px;
+		margin: 7px;
+	}
+
+#messages-wrapper #sendFileForm
+{
+	font-size: x-large;
+	margin-top: 14px;
+	position: absolute;
+	right: 80px;
+	width: 15%;
+	bottom: 20px;
+}
+
+#UploadFile, #chooseFile
+{
+	font-size: x-large;
+	margin-top: 12px;
+	height: 60px;
+	width: 100%;
+}
+
+#online-users-holder h1, #profile-info-holder h2
+{
+	font-size: x-large;
+	text-align: center;
+}
+
+#online-users-holder ul
+{
+	max-height: 300px;
+	overflow: auto;
+}
+
+	#online-users-holder ul li
+	{
+		cursor: pointer;
+	}
+
+
+		#online-users-holder ul li img
+		{
+			margin-right: 10px;
+			margin-bottom:5px;
+			width: 40px;
+			height: 50px;
+			display: inline-block;
+			vertical-align: middle;
+		}
+
+#input-msg-writer
+{
+	width: 95%;
+}
+
+#profile-picture
+{
+	width: 200px;
+	height: 200px;
+}
+
+.red-message
+{
+	color:#FF8500;
+}
+
+.blue-message
+{
+	color:#058000;
+}
+
+#btn-logout
+{
 	position:absolute;
-	left:520px;
-	
-}
-
-.online-user
-{
-
-}
-
-#messages-wrapper #user-messages .message h2
-{
-	font-size:1.2em;
-}
-
-.unread
-{
-	color:red;
-}
-
-.red-message {
-    color: red;
-}
-
-.blue-message {
-    color: blue;
-}
-
-#chat-title{
-    height: 5%;
-    border: 2px solid blue;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 30px;
-    margin-bottom: 10px;
-    font-size: x-large;
-    font-weight:bolder;
-}
-
-#chat-container{
-    background-color: lightgreen;
-    width: 1200px;
-    height: 600px;
-    border: 2px solid darkblue;
-    padding: 10px;
-}
-
-#online-users-container{
-    display: inline-block;
-    float: left;
-    height: 92%;
-    width: 20%;
-    border: 2px solid blue;
-}
-
-#messages-container{
-    display: inline-block;
-    float:left;
-    height:92%;
-    width: 57%;
-    margin-left: 12px;
-}
-
-#messages-window{
-    height:80%;
-    width: 100%;
-    border: 2px solid blue;
-    margin-bottom: 13px;
-}
-
-#messages-writer{
-    height:17%;
-    width: 100%;
-    border: 2px solid blue;
-}
-
-#profile-sending{
-    display: inline-block;
-    float:left;
-    height: 92%;
-    width: 20%;
-    margin-left: 15px;
-}
-
-#profile-info-container{
-    height: 60%;
-    width: 100%;
-    border: 2px solid blue;
-}
-
-#form-send-message{
-    padding-left: 4px;
-}
-
-#btn-msg-sender{
-    font-size:x-large;
-    margin-top: 14px;
-    height: 98px;
-    width: 100%;
-}
-
-#btn-file-sender{
-    font-size:x-large;
-    margin-top: 12px;
-    height: 98px;
-    width: 100%;
-}
-
-#online-users-heading, #profile-heading{
-    font-size:x-large;
-    text-align: center;
-}
-
-#online-users-container, #messages-window, #messages-writer{
-    overflow:auto;
-}
-
-#input-msg-writer{
-    width: 95%;
-}
-
-#profile-picture{
-    width: 200px;
-    height: 200px
+	font-size: x-large;
+	margin-top: 12px;
+	height: 60px;
+	width: 19%;
+	bottom:20px;
+	left:10px;
 }

@@ -27,7 +27,7 @@ var controllers = (function () {
             $(selector).load('/PartialHtmls/ProfilePicture.html', function () {
                 self.persister.user.online(function (data) {
                     var users = ui.buildOnlineUsersList(data);
-                    $(selector).append(users);
+                    $("#online-users-holder").append(users);
                 }, function (error) { console.log(error); });
                 var channel = self.persister.username() + "-channel";
 
@@ -39,7 +39,7 @@ var controllers = (function () {
                 }, function () {
                 });
                 var profileInfo = ui.getProfileInfo(username);
-                $(selector).append(profileInfo);
+                $('#profile-info-holder').prepend(profileInfo);
 
                 PUBNUB.subscribe({
                     channel: channel,
@@ -143,9 +143,9 @@ var controllers = (function () {
                 $(this).removeClass('unread');
                 var username = $(this).data("username");
                 self.persister.message.byUsername(username, function (data) {
-                    $("#messages-wrapper").remove();
+                    $("#messages-wrapper").children().remove();
                     var messages = ui.buildMessages(data);
-                    $(selector).append(messages);
+                    $("#messages-wrapper").append(messages);
                     self.currentReciever = username;
                 }, function (err) {
                 });
