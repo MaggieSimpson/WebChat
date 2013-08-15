@@ -37,7 +37,7 @@
         return div;
     }
 
-    function AppendRecievedMessage(messageContent, senderUsername) {
+    function appendRecievedMessage(messageContent, senderUsername) {
         var li = '<li class = "message">';
         li += '<div><h2>Sender: ' + senderUsername + '</h2></div>';
         li += '<div class="message-content"><h2>Message: ' + messageContent + '</h2></div>';
@@ -45,17 +45,17 @@
         return li;
     }
 
-    function getProfileInfo(username, profileUrl) {
+    function getProfileInfo(username) {
         var div = '<div id="profile-info-holder">';
         div += '<h2>' + username + '</h2>';
-        div += '<img src = "' + profileUrl + '" width= "70" height = "50"/>';
+        div += '<img id= "profile-picture" src = "" width= "70" height = "50"/>';
         return div;
     }
 
     return {
         buildOnlineUsersList: buildOnlineUsersList,
         buildMessages: buildMessages,
-        AppendRecievedMessage: AppendRecievedMessage,
+        appendRecievedMessage: appendRecievedMessage,
         getProfileInfo: getProfileInfo
     }
 

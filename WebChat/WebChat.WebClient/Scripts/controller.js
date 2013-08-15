@@ -34,8 +34,11 @@ var controllers = (function () {
 
                 //$("#btn-logout").text("Logout ");
                 var username = self.persister.username();
-                var profileUrl = self.persister.profilePictureUrl();
-                var profileInfo = ui.getProfileInfo(username, profileUrl);
+                var profileUrl = self.persister.user.profilePicture(function (data) {
+                    $("#profile-picture").attr("src", data);
+
+                }, function () { });
+                var profileInfo = ui.getProfileInfo(username);
                 $(selector).append(profileInfo);
 
                 PUBNUB.subscribe({
@@ -44,7 +47,7 @@ var controllers = (function () {
                         var message = JSON.parse(message);
                         debugger;
                         if (message.Sender.Username == self.currentReciever) {
-                            var li = ui.AppendRecievedMessage(message.Content, self.persister.username());
+                            var li = ui.appendRecievedMessage(message.Content, self.persister.username());
                             $("#user-messages").prepend(li);
                         }
 
@@ -139,7 +142,7 @@ var controllers = (function () {
 
                     input.removeAttr('disabled');
 
-                    var li = ui.AppendRecievedMessage(input.val(), self.persister.username());
+                    var li = ui.appendRecievedMessage(input.val(), self.persister.username());
 
                     $("#user-messages").prepend(li);
                     input.val("");

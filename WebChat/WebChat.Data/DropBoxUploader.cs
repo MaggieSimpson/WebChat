@@ -61,7 +61,7 @@ namespace WebChat.Data
             {
                 var data = db.DropboxAuthentication.First();
 
-                OAuthToken oauthAccessToken = new OAuthToken(data.Token, data.Secret);
+                OAuthToken oauthAccessToken = new OAuthToken("d2576clemzwat0gv", "s066q2wjnpct8nx");
                 return oauthAccessToken;
             }
         }

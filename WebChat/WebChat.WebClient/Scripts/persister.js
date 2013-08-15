@@ -69,6 +69,11 @@ var persisters = (function () {
 				}, error);
         },
 
+        profilePicture: function (success, error) {
+            var url = this.rootUrl + "profilePicture?sessionKey=" + sessionkey;
+            httpRequester.getJSON(url, success, error);
+        },
+
         register: function (user, success, error) {
             var url = this.rootUrl + "register";
             var userData = {

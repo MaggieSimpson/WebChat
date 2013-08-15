@@ -38,6 +38,14 @@ namespace WebChat.Service.Controllers
             return unitOfWork.Users.All().Where(x => x.Sessionkey != null && x.Sessionkey != sessionKey);
         }
 
+        [HttpGet]
+        [ActionName("profilePicture")]
+        public string GetProfilePictureUrl(string sessionKey)
+        {
+            return unitOfWork.Users.All().First(x => x.Sessionkey != null && x.Sessionkey == sessionKey).ProfilePicture;
+        }
+
+
         [HttpPost]
         [ActionName("register")]
         public User Register(User user)
