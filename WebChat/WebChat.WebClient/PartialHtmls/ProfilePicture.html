@@ -1,34 +1,6 @@
-﻿<div style="width: 45%">
-    <div class="demo-section">
-        <form method="post" id="uploadImageForm" enctype="multipart/form-data"
-            action="http://localhost:49530/api/user/uploadImage">
-            <input type="file" name="profilePicture" />
-            <input type="submit" />
-        </form>
-    </div>
-</div>
+﻿<form id="uploadImageForm" enctype="multipart/form-data">
+    <input name="file" type="file" />
+    <input type="submit" id="Upload" value="Upload" />
+</form>
 
 <button id="btn-logout">Logout</button>
-
-<script>
-    (function () {
-        var sessionKey = controller.persister.sessionKey();
-        var currentAction = $("#uploadImageForm").attr("action");
-        $("#uploadImageForm").attr("action", currentAction + "?sessionKey=" + sessionKey);
-
-        $("#uploadImageForm").submit(function (e) {
-            e.preventDefault();
-
-            var data = new FormData(this);
-
-            //var file = $(this).find('[name=profilePicture]')[0].files;
-            //data.append(controller.persister.username(), file);
-
-            controller.persister.user.uploadProfilePicture(data, function () {
-                console.log("Picture uploaded.");
-            }, function () {
-
-            });
-        });
-    }());
-</script>

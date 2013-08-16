@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -77,73 +78,41 @@ namespace WebChat.Service.Controllers
             return dbUser;
         }
 
-        //[HttpPost]
-        //[ActionName("uploadImage")]
-        //public async Task<HttpResponseMessage> UploadImage(string sessionkey)
-        //{
-        //    // Check if the request contains multipart/form-data.
-        //    if (!Request.Content.IsMimeMultipartContent())
-        //    {
-        //        throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
-        //    }
-
-        //    string root = HttpContext.Current.Server.MapPath("~/App_Data");
-        //    var provider = new MultipartFormDataStreamProvider(root);
-
-        //    try
-        //    {
-        //        // Read the form data.
-        //        await Request.Content.ReadAsMultipartAsync(provider);
-
-        //        var dbUser = unitOfWork.Users.All().FirstOrDefault(x => x.Sessionkey == sessionkey);
-
-        //        // This illustrates how to get the file names.
-        //        foreach (var file in provider.FileData)
-        //        {
-        //            Trace.WriteLine(file.Headers.ContentDisposition.FileName);
-        //            Trace.WriteLine("Server file path: " + file.LocalFileName);
-        //            string fileName = file.LocalFileName;
-        //            var url = DropBoxUploader.UploadProfilePicToDropBox(fileName, file.Headers.ContentDisposition.FileName);
-        //            dbUser.ProfilePicture = url;
-        //            unitOfWork.Users.Update(dbUser.UserId, dbUser);
-        //            break;
-        //        }
-        //        return Request.CreateResponse(HttpStatusCode.OK);
-        //    }
-        //    catch (System.Exception e)
-        //    {
-        //        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
-        //    }
-        //}
-
         [HttpPost]
         [ActionName("uploadImage")]
-        public HttpResponseMessage UploadImage()
+        public HttpResponseMessage UploadImage(string sessionkey)
         {
             HttpResponseMessage result = null;
             var httpRequest = HttpContext.Current.Request;
 
-            // Check if files are available
             if (httpRequest.Files.Count > 0)
             {
                 var files = new List<string>();
 
-                // interate the files and save on the server
+                var dbUser = unitOfWork.Users.All().First(x => x.Sessionkey == sessionkey);
+
                 foreach (string file in httpRequest.Files)
                 {
                     var postedFile = httpRequest.Files[file];
-                    var filePath = HttpContext.Current.Server.MapPath("~/" + postedFile.FileName);
-                    postedFile.SaveAs(filePath);
+                    var fileName = DateTime.Now.Ticks + dbUser.Username + postedFile.FileName;
+                    var path = HttpContext.Current.Server.MapPath("~/App_Data/") + fileName;
+                    postedFile.SaveAs(path);
 
-                    files.Add(filePath);
+                    var url = DropBoxUploader.UploadProfilePicToDropBox(path, fileName);
+                    File.Delete(path);
+
+                    dbUser.ProfilePicture = url;
+                    unitOfWork.Users.Update(dbUser.UserId, dbUser);
+
+                    files.Add(fileName);
+
+                    break;
                 }
 
-                // return result
                 result = Request.CreateResponse(HttpStatusCode.Created, files);
             }
             else
             {
-                // return BadRequest (no file(s) available)
                 result = Request.CreateResponse(HttpStatusCode.BadRequest);
             }
 
