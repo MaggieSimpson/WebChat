@@ -9,22 +9,23 @@ ul
 {
 	list-style-type: none;
 }
+
 li
 {
-	margin:3px;
-	padding:0;
+	margin: 3px;
+	padding: 0;
 }
 
 	li h2
 	{
-		margin:0;
-		padding:0;
+		margin: 0;
+		padding: 0;
 	}
 
 #chat-title
 {
 	height: 5%;
-	border: 2px solid #6DC56D;;
+	border: 2px solid #6DC56D;
 	text-align: center;
 	vertical-align: middle;
 	line-height: 30px;
@@ -51,7 +52,7 @@ li
 	margin-left: 25px;
 	height: 62%;
 	width: 28%;
-	border: 2px solid #6DC56D;;
+	border: 2px solid #6DC56D;
 }
 
 	#online-users-holder li
@@ -99,7 +100,7 @@ li
 
 #profile-info-holder
 {
-	text-align:center;
+	text-align: center;
 	display: inline-block;
 	float: left;
 	height: 92%;
@@ -153,7 +154,7 @@ li
 		#online-users-holder ul li img
 		{
 			margin-right: 10px;
-			margin-bottom:5px;
+			margin-bottom: 5px;
 			width: 40px;
 			height: 50px;
 			display: inline-block;
@@ -173,21 +174,33 @@ li
 
 .red-message
 {
-	color:#FF8500;
+	color: #FF8500;
 }
 
 .blue-message
 {
-	color:#058000;
+	color: #058000;
 }
 
 #btn-logout
 {
-	position:absolute;
+	position: absolute;
 	font-size: x-large;
 	margin-top: 12px;
 	height: 60px;
 	width: 19%;
-	bottom:20px;
-	left:10px;
+	bottom: 20px;
+	left: 10px;
+}
+
+@-webkit-keyframes blinker {  
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+
+.unread
+{
+	color: red;
+	-webkit-animation:blinker 1s infinite
 }

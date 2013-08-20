@@ -1,7 +1,7 @@
 ﻿/// <reference path="jquery-2.0.3.min.js" />
 
 var controllers = (function () {
-    var rootUrl = "http://localhost:49530/api/";
+    var rootUrl = "http://webchat-1.apphb.com/api/";
 
     var Controller = Class.create({
         init: function () {
